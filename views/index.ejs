@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Todo App</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 My Todo List</h1>
+
+      <!-- We'll add content here -->
+      <!-- FORM TO ADD NEW TODO -->
+      <form action="/add" method="POST" class="todo-form">
+        <input
+          type="text"
+          name="task"
+          placeholder="Enter a new task..."
+          required
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+
+      <!-- TODO LIST -->
+      <div class="todo-list">
+        <% if (todos.length === 0) { %>
+        <p class="no-todos">No todos yet! Add one above.</p>
+        <% } else { %>
+        <ul>
+          <% todos.forEach(todo => { %>
+          <li class="<%= todo.completed ? 'completed' : '' %>">
+            <div class="todo-content">
+              <span class="task-text"><%= todo.task %></span>
+            </div>
+
+            <div class="todo-actions">
+              <!-- Toggle Complete Button -->
+              <form
+                action="/toggle/<%= todo.id %>"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="btn-complete">
+                  <%= todo.completed ? '↩️ Undo' : '✓ Done' %>
+                </button>
+              </form>
+
+              <!-- Delete Button -->
+              <form
+                action="/delete/<%= todo.id %>"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="btn-delete">🗑️ Delete</button>
+              </form>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
+    </div>
+    <!-- INCLUDE FOOTER PARTIAL -->
+    <%- include('partials/footer') %>
+  </body>
+</html>
