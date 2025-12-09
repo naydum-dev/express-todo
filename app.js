@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Set EJS as the view engine
 app.set("views", path.join(__dirname, "views"));
@@ -82,6 +82,10 @@ app.post("/delete/:id", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running port ${port}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Server is running port ${port}`);
+  });
+}
+
+export default app;
